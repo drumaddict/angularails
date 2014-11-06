@@ -11,13 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141019222807) do
+ActiveRecord::Schema.define(version: 20141105225714) do
 
   create_table "things", force: true do |t|
     t.string   "title"
     t.string   "description"
     t.boolean  "published",   default: false
     t.boolean  "featured",    default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "type_id"
+  end
+
+  add_index "things", ["type_id"], name: "index_things_on_type_id", using: :btree
+
+  create_table "types", force: true do |t|
+    t.string   "title"
+    t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

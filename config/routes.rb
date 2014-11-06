@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
 
   namespace :api, defaults: {format: :json} do
+    resources :types, only: [:index, :create, :update, :destroy] do
       resources :things, only: [:index, :create, :update, :destroy]
+    end
   end
 
 

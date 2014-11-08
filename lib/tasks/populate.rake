@@ -1,30 +1,29 @@
 namespace :populate do
-  desc "Erase and fill database"
-  task :things_and_types, [:number,:article_group_ids] => :environment do |t,args|
+  desc "Erase and fill database" #use as: rake populate things_and_types[10,5]
+  task :things_and_types, [:number_of_types,:number_of_things_per_type] => :environment do |t,args|
     #require 'populator'
     require 'faker'
-     puts 'Populating'
-
-   10.times do
-    Factory(:thing, :type => Factory(:type), :employees => [Factory(:employee)])
+    number_of_types=args.number_of_types.to_i
+    number_of_things_per_type=args.number_of_things_per_type.to_i
+    puts "Erasing all types and things."
+    Type.delete_all
+    puts "Populating #{number_of_types} types with  #{number_of_things_per_type} things each. "
+     number_of_types.times do
+      Type.create!({
+      title: Faker::Hacker.adjective ,
+      description: Faker::Hacker.say_something_smart
+        })
+      end
+      types=Type.all
+      types.each do  |type|
+          number_of_things_per_type.times do
+          type.things.create!({
+            title: Faker::Hacker.adjective ,
+            description: Faker::Hacker.say_something_smart ,
+            published: [true, false].sample,
+            featured: [true, false].sample
+            })
+        end
+      end
+    end
   end
-
-
-
-
-    article_group_ids=args[:article_group_ids].split(',').map{ |s| s.to_i }
-    number=args[:number].to_i
-    #[Category, Product, Person].each(&:delete_all)
-     I18n.locale='el'
-     number.times do
-    Article.create({
-    title: Faker::Lorem.sentence(3),
-    summary: Faker::Lorem.sentence(10),
-    body: Faker::Lorem.paragraph(30),
-    published_at: Time.zone.now,
-    featured:true,
-    article_group_ids: article_group_ids,
-    })
-     end
-  end
-end

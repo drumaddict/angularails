@@ -1,18 +1,16 @@
 class Api::ThingsController < Api::BaseController
 
   private
-  def type_params
-    params.require(:thing).permit(:title,:description,:published,:featured)
+  def thing_params
+    params.require(:thing).permit(:title, :description, :published, :featured, :type_id)
   end
 
+  # Returns the allowed parameters for searching
+  # Override this method in each API controller
+  # to permit additional parameters to search on
+  # @return [Hash]
   def query_params
-    params.permit(:title,:type_id)
+     params.permit(:title, :description, :featured, :published, :type_id)
   end
 
- public
-  def index
-
-    @things=Thing.where('type_id=?',params['type_id'])
-
   end
-end

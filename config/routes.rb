@@ -14,6 +14,11 @@ Rails.application.routes.draw do
   get '/' => "homepage#index", as: "home"
   root to: "homepage#index"
 
+    resources :types, only: [:index, :show] do
+    resources :things  , only: [:index, :show]
+     end
+
+
   # 404 catch all
   get "*path", :to => "website#routing_error"
 

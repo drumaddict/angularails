@@ -18,7 +18,6 @@ Rails.application.routes.draw do
     resources :things  , only: [:index, :show]
      end
 
-
   # 404 catch all
   get "*path", :to => "website#routing_error"
 

@@ -10,7 +10,7 @@ namespace :populate do
     puts "Populating #{number_of_types} types with  #{number_of_things_per_type} things each. "
      number_of_types.times do
       Type.create!({
-      title: Faker::Hacker.adjective ,
+      title: Faker::Hacker.adjective.titleize ,
       description: Faker::Hacker.say_something_smart
         })
       end
@@ -18,7 +18,7 @@ namespace :populate do
       types.each do  |type|
           number_of_things_per_type.times do
           type.things.create!({
-            title: Faker::Hacker.adjective ,
+            title: Faker::Hacker.adjective.titleize,
             description: Faker::Hacker.say_something_smart ,
             published: [true, false].sample,
             featured: [true, false].sample
